@@ -1,13 +1,14 @@
 #!/usr/bin/env node
-require('dotenv').config()
 
 const fs = require('fs')
+const path = require('path')
 const axios = require('axios')
 const program = require('commander')
 const browserify = require('browserify')
 const promisify = require('util').promisify
-const directory = process.env.POSTMAN_TEST_DIR
-const apiAddress = `https://api.getpostman.com/collections/${process.env.POSTMAN_COLLECTION_ID}?apikey=${process.env.POSTMAN_API_KEY}`
+const config = require(path.resolve(process.cwd(), '.postmancli'))
+const directory = config.POSTMAN_TEST_DIR
+const apiAddress = `https://api.getpostman.com/collections/${config.POSTMAN_COLLECTION_ID}?apikey=${config.POSTMAN_API_KEY}`
 
 program
   .option('-f, --files', 'Generate local files from Postman Collection')
