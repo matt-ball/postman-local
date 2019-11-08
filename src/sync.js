@@ -1,21 +1,14 @@
 const fs = require('fs')
-const path = require('path')
 const axios = require('axios')
 const browserify = require('browserify')
 const promisify = require('util').promisify
+const config = require('./lib/config')()
 const log = require('./lib/log')
-let config, command
+let command
 
 module.exports = function sync (cmd) {
   command = cmd._name
-
-  try {
-    config = require(path.resolve(process.cwd(), '.postman'))
-    exec()
-  } catch (e) {
-    log.error('No .postman.json file found!')
-    process.exit(1)
-  }
+  exec()
 }
 
 async function exec () {
