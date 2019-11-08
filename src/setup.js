@@ -2,12 +2,18 @@ const fs = require('fs')
 const axios = require('axios')
 const { prompt } = require('enquirer')
 const log = require('./lib/log')
-const config = require('./lib/config')()
 const apiBase = 'https://api.getpostman.com/workspaces'
-const apiKey = `?apikey=${config.POSTMAN_API_KEY}`
 
 module.exports = async function setup () {
-  const workspaces = await axios.get(`${apiBase}/${apiKey}`)
+  const apiKey = await prompt({
+    type: 'input',
+    name: 'value',
+    message: 'Enter your Postman API key'
+  })
+
+  const apiKeyParam = `?apikey=${apiKey.value}`
+
+  const workspaces = await axios.get(`${apiBase}/${apiKeyParam}`)
   const workspaceChoices = createChoices(workspaces.data.workspaces)
 
   const selectedWorkspace = await prompt({
@@ -18,7 +24,7 @@ module.exports = async function setup () {
     choices: workspaceChoices
   })
 
-  const collections = await axios.get(`${apiBase}/${selectedWorkspace.id}/${apiKey}`)
+  const collections = await axios.get(`${apiBase}/${selectedWorkspace.id}/${apiKeyParam}`)
   const collectionChoices = createChoices(collections.data.workspace.collections)
 
   const selectedCollection = await prompt({
@@ -36,7 +42,7 @@ module.exports = async function setup () {
   })
 
   const settings = {
-    POSTMAN_API_KEY: config.POSTMAN_API_KEY,
+    POSTMAN_API_KEY: apiKey.value,
     POSTMAN_COLLECTION_ID: selectedCollection.id,
     POSTMAN_TEST_DIR: directory.name
   }

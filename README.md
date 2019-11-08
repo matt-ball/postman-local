@@ -14,9 +14,7 @@ Using `require` works within these scripts as Browserify will run whenever you r
 
 ## Configuration
 
-Copy `.postman.json.example` to `.postman.json` and complete appropriately.
-
-You *must complete* the `POSTMAN_API_KEY` field. Run `postman setup` to configure the other fields through the CLI.
+Run `postman setup` within the root directory of your project to setup a Postman CLI config.
 
 See the Postman Learning Center for [details on creating an API key](https://learning.getpostman.com/docs/postman/postman-api/intro-api/).
 

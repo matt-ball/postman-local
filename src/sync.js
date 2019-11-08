@@ -2,7 +2,6 @@ const fs = require('fs')
 const axios = require('axios')
 const browserify = require('browserify')
 const promisify = require('util').promisify
-const config = require('./lib/config')()
 const log = require('./lib/log')
 let command
 
@@ -12,6 +11,7 @@ module.exports = function sync (cmd) {
 }
 
 async function exec () {
+  const config = require('./lib/config')
   const apiAddress = `https://api.getpostman.com/collections/${config.POSTMAN_COLLECTION_ID}?apikey=${config.POSTMAN_API_KEY}`
   const res = await axios.get(apiAddress)
   const collection = res.data.collection
@@ -47,6 +47,7 @@ async function checkCollectionItems (items, context) {
 }
 
 function mapScriptToFile (req, context = '') {
+  const config = require('./lib/config')
   const tests = req.event.find((el) => el.listen === 'test') && req.event.find((el) => el.listen === 'test').script.exec.join('\n')
   const preRequest = req.event.find((el) => el.listen === 'prerequest') && req.event.find((el) => el.listen === 'prerequest').script.exec.join('\n')
   const path = `${config.POSTMAN_TEST_DIR}/${context}/${req.name}`
@@ -63,6 +64,7 @@ function mapScriptToFile (req, context = '') {
 }
 
 async function mapFileToScript (req, context = '') {
+  const config = require('./lib/config')
   const testPath = `${config.POSTMAN_TEST_DIR}/${context}/${req.name}/test.js`
   const preRequestPath = `${config.POSTMAN_TEST_DIR}/${context}/${req.name}/preRequest.js`
 
