@@ -1,6 +1,6 @@
 {
   "name": "@matt.ball/postman-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "bin": {
     "pm": "./index.js",
     "postman": "./index.js"
@@ -12,7 +12,7 @@
     "axios": "^0.19.0",
     "browserify": "^16.5.0",
     "chalk": "^2.4.2",
-    "commander": "^3.0.1",
+    "commander": "^4.0.1",
     "enquirer": "^2.3.2"
   }
 }
