@@ -41,10 +41,18 @@ module.exports = async function setup () {
     message: 'Enter the directory for Postman tests'
   })
 
+  const filename = await prompt({
+    type: 'input',
+    name: 'name',
+    initial: 'postman_collection.json',
+    message: 'Enter filename for collection JSON file'
+  })
+
   const settings = {
     POSTMAN_API_KEY: apiKey.value,
     POSTMAN_COLLECTION_ID: selectedCollection.id,
-    POSTMAN_TEST_DIR: directory.name
+    POSTMAN_TEST_DIR: directory.name,
+    POSTMAN_COLLECTION_FILENAME: filename.name
   }
 
   fs.writeFileSync('.postman.json', JSON.stringify(settings, null, 2))

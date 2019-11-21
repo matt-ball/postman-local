@@ -26,6 +26,7 @@ async function exec () {
 
   if (command === 'sync') {
     axios.put(apiAddress, { collection })
+    fs.writeFileSync(config.POSTMAN_COLLECTION_FILENAME, JSON.stringify(collection, null, 2))
     log.success('Postman updated!')
   }
 }
@@ -96,4 +97,3 @@ async function mapFileToScript (req, context = '') {
 // TODO
 // - Any way to clean up browserify more?
 // - When things are deleted
-// - Does browserify work outside of this dir
