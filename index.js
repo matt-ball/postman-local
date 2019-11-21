@@ -19,4 +19,9 @@ program
   .description('Sync local files to Postman Collection')
   .action(sync)
 
+program
+  .commdand('update')
+  .description('Update collection in the Postman app')
+  .action(sync)
+
 program.parse(process.argv)

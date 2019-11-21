@@ -25,8 +25,12 @@ async function exec () {
   }
 
   if (command === 'sync') {
-    axios.put(apiAddress, { collection })
     fs.writeFileSync(config.POSTMAN_COLLECTION_FILENAME, JSON.stringify(collection, null, 2))
+    log.success(`${config.POSTMAN_COLLECTION_FILENAME} written!`)
+  }
+
+  if (command === 'update') {
+    axios.put(apiAddress, { collection })
     log.success('Postman updated!')
   }
 }

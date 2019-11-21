@@ -26,7 +26,11 @@ Will retrieve your collection via the Postman API and convert all your scripts t
 
 ### `postman sync`
 
-Will update your collection via the Postman API, converting all the files back to the Postman Collection format.
+Convert the files created with `postman bootstrap` back to the Postman Collection format.
+
+### `postman update`
+
+Updates the collection within Postman via Postman API with your local changes.
 
 ## Other
 
