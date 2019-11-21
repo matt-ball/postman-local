@@ -20,7 +20,7 @@ program
   .action(sync)
 
 program
-  .commdand('update')
+  .command('update')
   .description('Update collection in the Postman app')
   .action(sync)
 
