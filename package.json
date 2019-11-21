@@ -1,6 +1,6 @@
 {
   "name": "@matt.ball/postman-cli",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "bin": {
     "pm": "./index.js",
     "postman": "./index.js"
