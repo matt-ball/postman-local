@@ -1,6 +1,6 @@
 # Postman CLI
 
-A client to facilitate local development of scripts for Postman
+A client to facilitate local development of scripts for Postman.
 
 ## About
 
@@ -10,7 +10,7 @@ Using `require` works within these scripts as Browserify will run whenever you r
 
 ## Installation
 
-`npm i -g postman-cli`
+`npm i -g @matt-ball/postman-cli`
 
 ## Configuration
 
@@ -20,17 +20,57 @@ See the Postman Learning Center for [details on creating an API key](https://lea
 
 ## Usage
 
+Run the `postman` command from the root directory of your repo.
+
 ### `postman bootstrap`
 
-Will retrieve your collection via the Postman API and convert all your scripts to editable files.
+Retrieves a collection and converts its scripts to editable files. One-time setup for a repo.
+
+### `postman clone`
+
+Copies the collection to `My Workspace` in Postman for testing. Useful when cloning others branches.
 
 ### `postman sync`
 
-Convert the files created with `postman bootstrap` back to the Postman Collection format.
+Converts the files created with `postman bootstrap` back to the Postman collection format. Use before pushing changes.
 
 ### `postman update`
 
-Updates the collection within Postman via Postman API with your local changes.
+Updates the collection within Postman with local changes. Useful for CI/CD.
+
+## Getting started
+
+1. From the root of your Git repo:
+`postman bootstrap`
+
+2. Enter your API key and the appropriate workspace/collection for the project you're working on.
+
+Done!
+
+## Example workflow
+
+1. Open a new branch:
+`git checkout -b shiny-new-feature`
+
+2. Make code changes:
+`git add src/`
+`git commit -m 'update api code'`
+
+3. Sync to Postman collection format:
+`postman sync`
+
+4. Add and commit changes:
+`git add postman-tests/`
+`git commit -m 'update api tests'`
+
+5. Run Newman:
+`newman run postman_collection.json -e postman_environment.json`
+
+6. Push changes:
+`git push`
+
+7. PR opened, approved and merged, CD runs syncing Postman collection to Postman app:
+`postman update`
 
 ## Other
 

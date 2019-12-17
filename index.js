@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const program = require('commander')
+const clone = require('./src/clone')
 const setup = require('./src/setup')
 const sync = require('./src/sync')
 
@@ -24,4 +25,12 @@ program
   .description('Update collection in the Postman app')
   .action(sync)
 
+program
+  .command('clone')
+  .description('Clone collection into My Workspace')
+  .action(clone)
+
 program.parse(process.argv)
+
+// todo
+// - [ ] sync environment
