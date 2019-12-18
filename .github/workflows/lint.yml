@@ -1,0 +1,19 @@
+name: Lint
+
+on:
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: '10.12'
+      - name: Install deps and lint
+        run: |
+          make bootstrap
+          make lint
