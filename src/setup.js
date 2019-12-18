@@ -51,6 +51,7 @@ module.exports = async function setup () {
   const settings = {
     POSTMAN_API_KEY: apiKey.value,
     POSTMAN_COLLECTION_ID: selectedCollection.id,
+    POSTMAN_WORKSPACE_ID: selectedWorkspace.id,
     POSTMAN_TEST_DIR: directory.name,
     POSTMAN_COLLECTION_FILENAME: filename.name
   }

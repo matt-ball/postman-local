@@ -30,6 +30,10 @@ Retrieves a collection and converts its scripts to editable files. One-time setu
 
 Copies the collection to `My Workspace` in Postman for testing. Useful when cloning others branches.
 
+### `postman env`
+
+Fetch an environment from Postman to use locally.
+
 ### `postman sync`
 
 Converts the files created with `postman bootstrap` back to the Postman collection format. Use before pushing changes.
@@ -40,8 +44,8 @@ Updates the collection within Postman with local changes. Useful for CI/CD.
 
 ## Getting started
 
-1. From the root of your Git repo:
-`postman bootstrap`
+1. From the root of your Git repo:  
+`postman bootstrap`  
 
 2. Enter your API key and the appropriate workspace/collection for the project you're working on.
 
@@ -49,28 +53,28 @@ Done!
 
 ## Example workflow
 
-1. Open a new branch:
-`git checkout -b shiny-new-feature`
+1. Open a new branch:  
+`git checkout -b shiny-new-feature`  
 
-2. Make code changes:
-`git add src/`
-`git commit -m 'update api code'`
+2. Make code changes:  
+`git add src/`  
+`git commit -m 'update api code'`  
 
-3. Sync to Postman collection format:
-`postman sync`
+3. Sync to Postman collection format:  
+`postman sync`  
 
-4. Add and commit changes:
-`git add postman-tests/`
-`git commit -m 'update api tests'`
+4. Add and commit changes:  
+`git add postman-tests/`  
+`git commit -m 'update api tests'`  
 
-5. Run Newman:
-`newman run postman_collection.json -e postman_environment.json`
+5. Run Newman:  
+`newman run postman_collection.json -e postman_environment.json`  
 
-6. Push changes:
-`git push`
+6. Push changes:  
+`git push`  
 
-7. PR opened, approved and merged, CD runs syncing Postman collection to Postman app:
-`postman update`
+7. PR opened, approved and merged, CD runs syncing Postman collection to Postman app:  
+`postman update`  
 
 ## Other
 

@@ -2,6 +2,7 @@
 
 const program = require('commander')
 const clone = require('./src/clone')
+const env = require('./src/env')
 const setup = require('./src/setup')
 const sync = require('./src/sync')
 
@@ -30,7 +31,9 @@ program
   .description('Clone collection into My Workspace')
   .action(clone)
 
-program.parse(process.argv)
+program
+  .command('env')
+  .description('Fetch an environment')
+  .action(env)
 
-// todo
-// - [ ] sync environment
+program.parse(process.argv)
