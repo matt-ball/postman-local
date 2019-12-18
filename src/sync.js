@@ -3,6 +3,7 @@ const axios = require('axios')
 const browserify = require('browserify')
 const promisify = require('util').promisify
 const log = require('./lib/log')
+const { POSTMAN_API_BASE } = require('./lib/constants')
 let command
 
 module.exports = function sync (cmd) {
@@ -11,8 +12,9 @@ module.exports = function sync (cmd) {
 }
 
 async function exec () {
-  const config = require('./lib/config')
-  const apiAddress = `https://api.getpostman.com/collections/${config.POSTMAN_COLLECTION_ID}?apikey=${config.POSTMAN_API_KEY}`
+  const { POSTMAN_API_KEY, POSTMAN_COLLECTION_ID, POSTMAN_COLLECTION_FILENAME } = require('./lib/config')
+  const apiKeyParam = `?apikey=${POSTMAN_API_KEY}`
+  const apiAddress = `${POSTMAN_API_BASE}/collections/${POSTMAN_COLLECTION_ID}/${apiKeyParam}`
   const res = await axios.get(apiAddress)
   const collection = res.data.collection
 
@@ -25,8 +27,8 @@ async function exec () {
   }
 
   if (command === 'sync') {
-    fs.writeFileSync(config.POSTMAN_COLLECTION_FILENAME, JSON.stringify(collection, null, 2))
-    log.success(`${config.POSTMAN_COLLECTION_FILENAME} written!`)
+    fs.writeFileSync(POSTMAN_COLLECTION_FILENAME, JSON.stringify(collection, null, 2))
+    log.success(`${POSTMAN_COLLECTION_FILENAME} written!`)
   }
 
   if (command === 'update') {

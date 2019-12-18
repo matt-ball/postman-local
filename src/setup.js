@@ -1,8 +1,9 @@
 const fs = require('fs')
 const axios = require('axios')
 const { prompt } = require('enquirer')
+const createChoices = require('./lib/create-choices')
 const log = require('./lib/log')
-const apiBase = 'https://api.getpostman.com/workspaces'
+const { POSTMAN_API_BASE } = require('./lib/constants')
 
 module.exports = async function setup () {
   const apiKey = await prompt({
@@ -13,7 +14,7 @@ module.exports = async function setup () {
 
   const apiKeyParam = `?apikey=${apiKey.value}`
 
-  const workspaces = await axios.get(`${apiBase}/${apiKeyParam}`)
+  const workspaces = await axios.get(`${POSTMAN_API_BASE}/workspaces/${apiKeyParam}`)
   const workspaceChoices = createChoices(workspaces.data.workspaces)
 
   const selectedWorkspace = await prompt({
@@ -24,7 +25,7 @@ module.exports = async function setup () {
     choices: workspaceChoices
   })
 
-  const collections = await axios.get(`${apiBase}/${selectedWorkspace.id}/${apiKeyParam}`)
+  const collections = await axios.get(`${POSTMAN_API_BASE}/workspaces/${selectedWorkspace.id}/${apiKeyParam}`)
   const collectionChoices = createChoices(collections.data.workspace.collections)
 
   const selectedCollection = await prompt({
@@ -38,14 +39,22 @@ module.exports = async function setup () {
   const directory = await prompt({
     type: 'input',
     name: 'name',
+    initial: 'postman-tests',
     message: 'Enter the directory for Postman tests'
   })
 
-  const filename = await prompt({
+  const collectionFile = await prompt({
     type: 'input',
     name: 'name',
     initial: 'postman_collection.json',
     message: 'Enter filename for collection JSON file'
+  })
+
+  const environmentFile = await prompt({
+    type: 'input',
+    name: 'name',
+    initial: 'postman_environment.json',
+    message: 'Enter filename for environment JSON file'
   })
 
   const settings = {
@@ -53,13 +62,10 @@ module.exports = async function setup () {
     POSTMAN_COLLECTION_ID: selectedCollection.id,
     POSTMAN_WORKSPACE_ID: selectedWorkspace.id,
     POSTMAN_TEST_DIR: directory.name,
-    POSTMAN_COLLECTION_FILENAME: filename.name
+    POSTMAN_COLLECTION_FILENAME: collectionFile.name,
+    POSTMAN_ENVIRONMENT_FILENAME: environmentFile.name
   }
 
   fs.writeFileSync('.postman.json', JSON.stringify(settings, null, 2))
   log.success('Postman CLI config saved!')
-}
-
-function createChoices (arr) {
-  return arr.map(({ name, id }) => { return { name, value: id } })
 }
