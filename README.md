@@ -66,8 +66,8 @@ Done!
 `git commit -m 'update api code'`  
 
 3. Sync to Postman collection format:  
-`postman sync`
-`git add postman_collection.json`
+`postman sync`  
+`git add postman_collection.json`  
 
 4. Add and commit changes:  
 `git add postman-tests/`  
