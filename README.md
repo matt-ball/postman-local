@@ -51,7 +51,7 @@ Updates the collection within Postman with local changes. Useful for CI/CD.
 
 2. Enter your API key and the appropriate workspace/collection for the project you're working on.
 
-3. Retrieve the appropriate Postman environment:
+3. Retrieve the appropriate Postman environment:  
 `postman env`
 
 Done!
