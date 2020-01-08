@@ -55,18 +55,20 @@ async function checkCollectionItems (items, context) {
 
 function mapScriptToFile (req, context = '') {
   const config = require('./lib/config')
-  const tests = req.event.find((el) => el.listen === 'test') && req.event.find((el) => el.listen === 'test').script.exec.join('\n')
-  const preRequest = req.event.find((el) => el.listen === 'prerequest') && req.event.find((el) => el.listen === 'prerequest').script.exec.join('\n')
+  const tests = req.event.find((el) => el.listen === 'test')
+  const testScript = tests && tests.script.exec.join('\n')
+  const preRequest = req.event.find((el) => el.listen === 'prerequest')
+  const preRequestScript = preRequest && preRequest.script.exec.join('\n')
   const path = `${config.POSTMAN_TEST_DIR}/${context}/${req.name}`
 
-  if (tests && !fs.existsSync(`${path}/test.js`)) {
+  if (testScript && !fs.existsSync(`${path}/test.js`)) {
     fs.mkdirSync(path, { recursive: true })
-    fs.writeFileSync(`${path}/test.js`, tests)
+    fs.writeFileSync(`${path}/test.js`, testScript)
   }
 
-  if (preRequest && !fs.existsSync(`${path}/preRequest.js`)) {
+  if (preRequestScript && !fs.existsSync(`${path}/preRequest.js`)) {
     fs.mkdirSync(path, { recursive: true })
-    fs.writeFileSync(`${path}/preRequest.js`, preRequest)
+    fs.writeFileSync(`${path}/preRequest.js`, preRequestScript)
   }
 }
 
@@ -74,6 +76,8 @@ async function mapFileToScript (req, context = '') {
   const config = require('./lib/config')
   const testPath = `${config.POSTMAN_TEST_DIR}/${context}/${req.name}/test.js`
   const preRequestPath = `${config.POSTMAN_TEST_DIR}/${context}/${req.name}/preRequest.js`
+  const testIndex = req.event.findIndex((el) => el.listen === 'test')
+  const preRequestindex = req.event.findIndex((el) => el.listen === 'prerequest')
 
   if (fs.existsSync(testPath)) {
     const b = browserify()
@@ -82,9 +86,10 @@ async function mapFileToScript (req, context = '') {
     const doBundle = promisify(b.bundle.bind(b))
     const buf = await doBundle()
     const script = buf.toString()
-    const index = req.event.findIndex((el) => el.listen === 'test')
 
-    req.event[index].script.exec = script.split('\n')
+    req.event[testIndex].script.exec = script.split('\n')
+  } else {
+    req.event[testIndex].script.exec = ''
   }
 
   if (fs.existsSync(preRequestPath)) {
@@ -94,12 +99,9 @@ async function mapFileToScript (req, context = '') {
     const doBundle = promisify(b.bundle.bind(b))
     const buf = await doBundle()
     const script = buf.toString()
-    const index = req.event.findIndex((el) => el.listen === 'prerequest')
 
-    req.event[index].script.exec = script.split('\n')
+    req.event[preRequestindex].script.exec = script.split('\n')
+  } else {
+    req.event[preRequestindex].script.exec = ''
   }
 }
-
-// TODO
-// - Any way to clean up browserify more?
-// - When things are deleted
