@@ -1,6 +1,8 @@
 {
   "POSTMAN_API_KEY": "<api key here>",
   "POSTMAN_COLLECTION_ID": "<collection ID here>",
+  "POSTMAN_WORKSPACE_ID": "<workspace ID here>",
   "POSTMAN_TEST_DIR": "<directory name here>",
-  "POSTMAN_COLLECTION_FILENAME": "postman_collection.json"
+  "POSTMAN_COLLECTION_FILENAME": "postman_collection.json",
+  "POSTMAN_ENVIRONMENT_FILENAME": "postman_environment.json"
 }

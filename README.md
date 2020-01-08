@@ -4,9 +4,11 @@ A client to facilitate local development of scripts for Postman.
 
 ## About
 
-Allows for editing of Postman Scripts inside your chosen editor, without having to deal with JSON structures and importing/exporting collections from Postman.
+Allows for editing of Postman Scripts inside your chosen editor. This has a few additional benefits:
 
-Using `require` works within these scripts as Browserify will run whenever you run the `postman sync` command. This means you can reuse local files as well as pull in external modules from NPM as they will all be bundled automaticaly when you sync.
+- Work with JavaScript files instead of the Postman collection JSON structure
+- Use of `require` to include local files/libraries from NPM (you must `npm install`) not otherwise available in Postman's sandbox 
+- Version control your Postman scripts alongside your API code
 
 ## Installation
 
@@ -24,7 +26,7 @@ Run the `postman` command from the root directory of your repo.
 
 ### `postman bootstrap`
 
-Retrieves a collection and converts its scripts to editable files. One-time setup for a repo.
+Retrieves a collection and converts its scripts to JavaScript files. Run this command whenever adding new scripts on the Postman side - it will not convert previously bootstrapped scripts.
 
 ### `postman clone`
 
@@ -49,6 +51,9 @@ Updates the collection within Postman with local changes. Useful for CI/CD.
 
 2. Enter your API key and the appropriate workspace/collection for the project you're working on.
 
+3. Retrieve the appropriate Postman environment:
+`postman env`
+
 Done!
 
 ## Example workflow
@@ -61,7 +66,8 @@ Done!
 `git commit -m 'update api code'`  
 
 3. Sync to Postman collection format:  
-`postman sync`  
+`postman sync`
+`git add postman_collection.json`
 
 4. Add and commit changes:  
 `git add postman-tests/`  
