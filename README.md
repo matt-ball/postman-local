@@ -12,7 +12,7 @@ Allows for editing of Postman Scripts inside your chosen editor. This has a few 
 
 ## Installation
 
-`npm i -g @matt-ball/postman-cli`
+`npm i -g @matt.ball/postman-cli`
 
 ## Configuration
 
