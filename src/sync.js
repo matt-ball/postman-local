@@ -55,9 +55,9 @@ async function checkCollectionItems (items, context) {
 
 function mapScriptToFile (req, context = '') {
   const config = require('./lib/config')
-  const tests = req.event.find((el) => el.listen === 'test')
+  const tests = req.event && req.event.find((el) => el.listen === 'test')
   const testScript = tests && tests.script.exec.join('\n')
-  const preRequest = req.event.find((el) => el.listen === 'prerequest')
+  const preRequest = req.event && req.event.find((el) => el.listen === 'prerequest')
   const preRequestScript = preRequest && preRequest.script.exec.join('\n')
   const path = `${config.POSTMAN_TEST_DIR}/${context}/${req.name}`
 
