@@ -12,6 +12,8 @@ Allows for editing of Postman Scripts inside your chosen editor. This has a few 
 
 ## Installation
 
+Node version 10.12 or higher is required.
+
 `npm i -g @matt.ball/postman-cli`
 
 ## Configuration
