@@ -6,6 +6,7 @@ try {
   console.log(path.resolve(process.cwd(), '.postman.json'))
   module.exports = require(path.resolve(process.cwd(), '.postman.json'))
 } catch (e) {
+  console.log(e)
   log.error('No .postman.json file found! Run postman setup.')
   process.exit(1)
 }
