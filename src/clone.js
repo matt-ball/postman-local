@@ -8,9 +8,14 @@ module.exports = async function clone () {
   const { POSTMAN_API_KEY } = config
   const apiKeyParam = `?apikey=${POSTMAN_API_KEY}`
   const collection = require(path.resolve(process.cwd(), config.POSTMAN_COLLECTION_FILENAME))
-  const createCollection = await axios.post(`${POSTMAN_API_BASE}/${apiKeyParam}`, { collection })
 
-  if (createCollection) {
-    log.success('Collection cloned to My Workspace!')
+  try {
+    const createCollection = await axios.post(`${POSTMAN_API_BASE}/collections/${apiKeyParam}`, { collection })
+
+    if (createCollection) {
+      log.success('Collection cloned to My Workspace!')
+    }
+  } catch (e) {
+    log.error('Failed to clone collection to My Workspace.')
   }
 }
