@@ -38,13 +38,17 @@ Copies the collection to `My Workspace` in Postman for testing. Useful when clon
 
 Fetch an environment from Postman to use locally.
 
+### `postman setup`
+
+Run for intial setup. Generates a `.postman.json` configuration file.
+
 ### `postman sync`
 
 Converts the files created with `postman bootstrap` back to the Postman collection format. Use before pushing changes.
 
 ### `postman update`
 
-Updates the collection within Postman with local changes. Useful for CI/CD.
+Updates the collection in Postman with local changes. Useful for CD on merge to master - include your config/secrets `.postman.json` file (generated from `postman setup`) within this environment.
 
 ## Getting started
 
@@ -67,21 +71,23 @@ Done!
 `git add src/`  
 `git commit -m 'update api code'`  
 
-3. Sync to Postman collection format:  
+3. Update Postman test scripts, sync to Postman collection format:  
 `postman sync`  
-`git add postman_collection.json`  
 
-4. Add and commit changes:  
+4. Validate tests in personal workspace in Postman:  
+`postman clone`  
+
+5. Add, commit, push changes:  
 `git add postman-tests/`  
+`git add postman_collection.json`  
 `git commit -m 'update api tests'`  
-
-5. Run Newman:  
-`newman run postman_collection.json -e postman_environment.json`  
-
-6. Push changes:  
 `git push`  
 
-7. PR opened, approved and merged, CD runs syncing Postman collection to Postman app:  
+6. PR opens, CI runs Newman:  
+`newman run postman_collection.json -e postman_environment.json`  
+
+7. PR approved and merged, CD runs the following, updating Postman collection to Postman app:  
+`echo ${{ secrets.postmanCli }} > .postman.json`  
 `postman update`  
 
 ## Other
