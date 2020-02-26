@@ -1,6 +1,6 @@
-const fs = require('fs')
 const axios = require('axios')
 const { prompt } = require('enquirer')
+const config = require('./lib/config')
 const createChoices = require('./lib/create-choices')
 const log = require('./lib/log')
 const { POSTMAN_API_BASE } = require('./lib/constants')
@@ -75,6 +75,5 @@ async function continueSetup (collectionList, apiKey, selectedWorkspaceId) {
     POSTMAN_ENVIRONMENT_FILENAME: environmentFile.name
   }
 
-  fs.writeFileSync('.postman.json', JSON.stringify(settings, null, 2))
-  log.success('Postman CLI config saved!')
+  config.set(settings, { log: true })
 }
