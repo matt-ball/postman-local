@@ -5,6 +5,7 @@ const clone = require('./src/clone')
 const env = require('./src/env')
 const setup = require('./src/setup')
 const sync = require('./src/sync')
+const update = require('./src/update')
 
 program
   .command('setup')
@@ -24,7 +25,7 @@ program
 program
   .command('update')
   .description('Update collection in the Postman app')
-  .action(sync)
+  .action(update)
 
 program
   .command('clone')
