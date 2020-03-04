@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const program = require('commander')
+const bootstrap = require('./src/bootstrap')
 const clone = require('./src/clone')
 const env = require('./src/env')
 const setup = require('./src/setup')
@@ -15,7 +16,7 @@ program
 program
   .command('bootstrap')
   .description('Generate local files from Postman Collection')
-  .action(sync)
+  .action(bootstrap)
 
 program
   .command('sync')
