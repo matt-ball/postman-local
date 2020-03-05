@@ -4,7 +4,7 @@ const log = require('./log')
 const { CONFIG_FILENAME } = require('./constants')
 
 module.exports = {
-  get: () => {
+  get: function () {
     try {
       return require(path.resolve(process.cwd(), CONFIG_FILENAME))
     } catch (e) {
@@ -12,11 +12,13 @@ module.exports = {
       process.exit(1)
     }
   },
-  set: (config, options) => {
-    try {
-      fs.writeFileSync(CONFIG_FILENAME, JSON.stringify(config, null, 2))
+  set: function (config, options) {
+    const settings = Object.assign(this.get(), config)
 
-      if (options.log) {
+    try {
+      fs.writeFileSync(CONFIG_FILENAME, JSON.stringify(settings, null, 2))
+
+      if (options && options.log) {
         log.success('Postman CLI config saved!')
       }
     } catch (e) {
