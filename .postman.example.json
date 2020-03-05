@@ -4,5 +4,7 @@
   "POSTMAN_WORKSPACE_ID": "<workspace ID here>",
   "POSTMAN_TEST_DIR": "<directory name here>",
   "POSTMAN_COLLECTION_FILENAME": "postman_collection.json",
-  "POSTMAN_ENVIRONMENT_FILENAME": "postman_environment.json"
+  "POSTMAN_ENVIRONMENT_FILENAME": "postman_environment.json",
+  "POSTMAN_CLONED_COLLECTION_ID": "<cloned collection ID here>",
+  "POSTMAN_CLONED_ENVIRONMENT_ID": "<cloned collection ID here>"
 }

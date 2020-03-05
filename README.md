@@ -32,7 +32,7 @@ Retrieves a collection and converts its scripts to JavaScript files. Run this co
 
 ### `postman clone`
 
-Copies the collection to `My Workspace` in Postman for testing. Useful when cloning others branches.
+Creates both collection and environment (if present) in `My Workspace` in Postman for testing. Will update pre-existing clones after running once. Useful when checking out others branches.
 
 ### `postman env`
 

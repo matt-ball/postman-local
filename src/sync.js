@@ -2,15 +2,13 @@ const fs = require('fs')
 const browserify = require('browserify')
 const promisify = require('util').promisify
 const config = require('./lib/config')
-const log = require('./lib/log')
+const file = require('./lib/file')
 const recurseCollection = require('./lib/recurse-collection')
 
 module.exports = async function sync () {
-  const { POSTMAN_COLLECTION_FILENAME } = config.get()
   const collection = await recurseCollection(mapFileToScript)
 
-  fs.writeFileSync(POSTMAN_COLLECTION_FILENAME, JSON.stringify(collection, null, 2))
-  log.success(`${POSTMAN_COLLECTION_FILENAME} written!`)
+  file.collection.write(collection)
 }
 
 async function mapFileToScript (req, context = '', scriptType) {
