@@ -6,8 +6,8 @@ const { POSTMAN_API_BASE } = require('./lib/constants')
 
 module.exports = async function clone () {
   const { POSTMAN_CLONED_COLLECTION_ID, POSTMAN_CLONED_ENVIRONMENT_ID } = config.get()
-  const collection = file.read.collection()
-  const environment = file.read.environment()
+  const collection = file.collection.read()
+  const environment = file.environment.read()
 
   await checkForExistingResource(collection, POSTMAN_CLONED_COLLECTION_ID)
   await checkForExistingResource(environment, POSTMAN_CLONED_ENVIRONMENT_ID)
