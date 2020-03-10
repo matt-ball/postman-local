@@ -53,6 +53,8 @@ async function cloneResource (resource, type, method, cloneId) {
 
       config.set({
         [configKey]: resourceCreated.data[singular].uid
+      }, {
+        merge: true
       })
 
       log.success(`${singular[0].toUpperCase()}${singular.slice(1)} ${message} My Workspace!`)

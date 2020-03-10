@@ -13,12 +13,14 @@ module.exports = {
     }
   },
   set: function (config, options) {
-    const settings = Object.assign(this.get(), config)
+    const shouldLog = options && options.log
+    const shouldMerge = options && options.merge
+    const settings = shouldMerge ? Object.assign(this.get(), config) : config
 
     try {
       fs.writeFileSync(CONFIG_FILENAME, JSON.stringify(settings, null, 2))
 
-      if (options && options.log) {
+      if (shouldLog) {
         log.success('Postman CLI config saved!')
       }
     } catch (e) {
