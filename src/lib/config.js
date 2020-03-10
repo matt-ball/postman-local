@@ -24,7 +24,6 @@ module.exports = {
         log.success('Postman CLI config saved!')
       }
     } catch (e) {
-      console.log(e)
       log.error(`Failed to write ${CONFIG_FILENAME} config file!`)
     }
   }
