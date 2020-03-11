@@ -10,13 +10,13 @@ module.exports = async function recurseCollection (cb) {
   const collection = res.data.collection
 
   if (collection.item) {
-    await recurseCollectionForScripts(collection, null, cb)
+    await recurseCollectionForItems(collection, null, cb)
     collection.item.pop()
     return collection
   }
 }
 
-async function recurseCollectionForScripts (collection, context, cb) {
+async function recurseCollectionForItems (collection, context, cb) {
   const items = collection.item
   const atCollectionRoot = collection.info
 
@@ -25,17 +25,19 @@ async function recurseCollectionForScripts (collection, context, cb) {
   }
 
   for await (let item of items) {
-    const itemContainsScript = item.request || item.event
+    const validItem = item.request || item.event
     const folder = !item.request && item.item
 
-    if (itemContainsScript) {
+    if (validItem) {
+      item = await cb(item, context, 'request')
+      item = await cb(item, context, 'response')
       item = await cb(item, context, 'prerequest')
       item = await cb(item, context, 'test')
     }
 
     if (folder) {
       context = context ? context + '/' : ''
-      await recurseCollectionForScripts(item, context + item.name, cb)
+      await recurseCollectionForItems(item, context + item.name, cb)
     }
   }
 }

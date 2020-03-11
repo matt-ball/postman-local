@@ -7,7 +7,7 @@ let wroteFile
 module.exports = async function bootstrap () {
   wroteFile = false
   const { POSTMAN_TEST_DIR } = config.get()
-  await recurseCollection(mapScriptToFile)
+  await recurseCollection(mapItemToFile)
 
   if (wroteFile) {
     log.success(`Files written to ${POSTMAN_TEST_DIR} directory!`)
@@ -16,19 +16,21 @@ module.exports = async function bootstrap () {
   }
 }
 
-function mapScriptToFile (req, context = '', scriptType) {
+function mapItemToFile (item, context = '', type) {
   const { POSTMAN_TEST_DIR } = config.get()
-  const scriptObj = (req.event && req.event.find((el) => el.listen === scriptType)) || (!req.event && req.find((el) => el.listen === scriptType))
+  const obj = item[type]
+  const scriptObj = (item.event && item.event.find((el) => el.listen === type)) || (!item.event && item.find((el) => el.listen === type))
   const script = scriptObj && scriptObj.script.exec.join('\n')
-  const path = `${POSTMAN_TEST_DIR}/${context}/${req.name || ''}`
-  const filePath = `${path}/${scriptType}.js`
+  const path = `${POSTMAN_TEST_DIR}/${context}/${item.name || ''}`
+  const fileExtension = script ? 'js' : 'json'
+  const filePath = `${path}/${type}.${fileExtension}`
   const fileNotBootstrapped = !fs.existsSync(filePath)
 
-  if (script && fileNotBootstrapped) {
+  if ((script || obj) && fileNotBootstrapped) {
     wroteFile = true
     fs.mkdirSync(path, { recursive: true })
-    fs.writeFileSync(filePath, script)
+    fs.writeFileSync(filePath, (script || JSON.stringify(obj, null, 2)))
   }
 
-  return req
+  return item
 }

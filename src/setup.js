@@ -48,8 +48,8 @@ async function continueSetup (collectionList, apiKey, selectedWorkspaceId) {
   const directory = await prompt({
     type: 'input',
     name: 'name',
-    initial: 'postman-tests',
-    message: 'Enter the directory for Postman tests'
+    initial: 'postman',
+    message: 'Enter the directory for Postman files'
   })
 
   const collectionFile = await prompt({

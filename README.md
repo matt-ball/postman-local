@@ -1,10 +1,12 @@
 # Postman CLI
 
-A client to facilitate local development of scripts for Postman.
+A client to facilitate local development of requests, responses and scripts for Postman.
+
+This functionality should be considered pre-alpha/early access. Use caution around production systems and anticipate breaking changes throughout this period.
 
 ## About
 
-Allows for editing of Postman Scripts inside your chosen editor. This has a few additional benefits:
+Allows for editing of Postman requests, responses and scripts inside your chosen editor. For scripts, this has a few additional benefits:
 
 - Work with JavaScript files instead of the Postman collection JSON structure
 - Use of `require` to include local files/libraries from NPM (you must `npm install`) not otherwise available in Postman's sandbox 
@@ -28,7 +30,7 @@ Run the `postman` command from the root directory of your repo.
 
 ### `postman bootstrap`
 
-Retrieves a collection and converts its scripts to JavaScript files. Run this command whenever adding new scripts on the Postman side - it will not convert previously bootstrapped scripts.
+Retrieves a collections requests/responses and converts their scripts to JavaScript files. Run this command whenever adding new requests on the Postman side - it will not convert previously bootstrapped requests.
 
 ### `postman clone`
 
@@ -44,7 +46,7 @@ Run for intial setup. Generates a `.postman.json` configuration file.
 
 ### `postman sync`
 
-Converts the files created with `postman bootstrap` back to the Postman collection format. Use before pushing changes.
+Converts the files created with `postman bootstrap` back to the Postman collection format. Use after making changes and before pushing to your VCS, running `postman clone` or `postman update`.
 
 ### `postman update`
 
@@ -78,7 +80,7 @@ Done!
 `postman clone`  
 
 5. Add, commit, push changes:  
-`git add postman-tests/`  
+`git add postman/`  
 `git add postman_collection.json`  
 `git commit -m 'update api tests'`  
 `git push`  
