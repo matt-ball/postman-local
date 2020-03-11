@@ -2,7 +2,7 @@
 
 A client to facilitate local development of requests, responses and scripts for Postman.
 
-This functionality should be considered pre-alpha/early access. Use caution around production system and anticipate breaking changes throughout this period.
+This functionality should be considered pre-alpha/early access. Use caution around production systems and anticipate breaking changes throughout this period.
 
 ## About
 
