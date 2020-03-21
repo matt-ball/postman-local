@@ -10,7 +10,7 @@ module.exports = async function recurseCollection (cb) {
   const collection = res.data.collection
 
   if (collection.item) {
-    await recurseCollectionForItems(collection, null, cb)
+    await recurseCollectionForItems(collection, '', cb)
     collection.item.pop()
     return collection
   }
