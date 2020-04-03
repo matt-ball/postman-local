@@ -12,25 +12,30 @@ module.exports = async function setup () {
     message: 'Enter your Postman API key'
   })
 
-  const apiKeyParam = `?apikey=${apiKey.value}`
-  const workspaces = await axios.get(`${POSTMAN_API_BASE}/workspaces/${apiKeyParam}`)
-  const workspaceChoices = createChoices(workspaces.data.workspaces)
+  try {
+    const apiKeyParam = `?apikey=${apiKey.value}`
+    const workspaces = await axios.get(`${POSTMAN_API_BASE}/workspaces/${apiKeyParam}`)
+    const workspaceChoices = createChoices(workspaces.data.workspaces)
 
-  const selectedWorkspace = await prompt({
-    name: 'id',
-    type: 'autocomplete',
-    message: 'Select the Workspace your Collection resides within',
-    limit: 10,
-    choices: workspaceChoices
-  })
+    const selectedWorkspace = await prompt({
+      name: 'id',
+      type: 'autocomplete',
+      message: 'Select the Workspace your Collection resides within',
+      limit: 10,
+      choices: workspaceChoices
+    })
 
-  const collections = await axios.get(`${POSTMAN_API_BASE}/workspaces/${selectedWorkspace.id}/${apiKeyParam}`)
-  const collectionList = collections.data.workspace.collections
+    const collections = await axios.get(`${POSTMAN_API_BASE}/workspaces/${selectedWorkspace.id}/${apiKeyParam}`)
+    const collectionList = collections.data.workspace.collections
 
-  if (collectionList) {
-    continueSetup(collectionList, apiKey.value, selectedWorkspace.id)
-  } else {
-    log.error('Workspace has no collections. Select another workspace.')
+    if (collectionList) {
+      continueSetup(collectionList, apiKey.value, selectedWorkspace.id)
+    } else {
+      log.error('Workspace has no collections. Select another workspace.')
+    }
+  } catch (e) {
+    log.error('Invalid Postman API key!')
+    setup()
   }
 }
 

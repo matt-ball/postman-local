@@ -19,7 +19,7 @@ module.exports = async function bootstrap () {
 function mapItemToFile (item, context = '', type) {
   const { POSTMAN_TEST_DIR } = config.get()
   const obj = item[type]
-  const scriptObj = (item.event && item.event.find((el) => el.listen === type)) || (!item.event && item.find((el) => el.listen === type))
+  const scriptObj = (item.event && item.event.find((el) => el.listen === type)) || (!item.event && item.length && item.find((el) => el.listen === type))
   const script = scriptObj && scriptObj.script.exec.join('\n')
   const path = `${POSTMAN_TEST_DIR}/${context}/${item.name || ''}`
   const fileExtension = script ? 'js' : 'json'
