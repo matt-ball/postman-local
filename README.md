@@ -50,7 +50,7 @@ Converts the files created with `postman bootstrap` back to the Postman collecti
 
 ### `postman update`
 
-Updates the collection in Postman with local changes. Useful for CD on merge to master - include your config/secrets `.postman.json` file (generated from `postman setup`) within this environment.
+Updates the collection in Postman with local changes. Useful for CD on merge to master - include your config/secrets `.postman.json` file (generated from `postman setup`) within this environment. _Note_: scripts in Postman will now include additional code through the Postman CLI bundling process - it's easier to edit locally only at this point.
 
 ## Getting started
 
