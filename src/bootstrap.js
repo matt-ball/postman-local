@@ -12,7 +12,7 @@ module.exports = async function bootstrap () {
   if (wroteFile) {
     log.success(`Files written to ${POSTMAN_TEST_DIR} directory!`)
   } else {
-    log.info('Nothing to bootstrap. No scripts found within collection.')
+    log.info('Nothing to bootstrap. No requests found within collection.')
   }
 }
 
