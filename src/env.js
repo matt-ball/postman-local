@@ -3,13 +3,24 @@ const { prompt } = require('enquirer')
 const config = require('./lib/config')
 const createChoices = require('./lib/create-choices')
 const file = require('./lib/file')
+const log = require('./lib/log')
 const { POSTMAN_API_BASE } = require('./lib/constants')
 
 module.exports = async function env () {
   const { POSTMAN_API_KEY, POSTMAN_WORKSPACE_ID } = config.get()
   const apiKeyParam = `?apikey=${POSTMAN_API_KEY}`
   const environments = await axios.get(`${POSTMAN_API_BASE}/workspaces/${POSTMAN_WORKSPACE_ID}/${apiKeyParam}`)
-  const environmentChoices = createChoices(environments.data.workspace.environments)
+  const environmentList = environments.data.workspace.environments
+
+  if (environmentList) {
+    selectEnvironment(environmentList, apiKeyParam)
+  } else {
+    log.error('No environments exist within this workspace!')
+  }
+}
+
+async function selectEnvironment (environmentList, apiKeyParam) {
+  const environmentChoices = createChoices(environmentList)
 
   const selectedEnvironment = await prompt({
     name: 'id',

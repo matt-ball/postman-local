@@ -1,7 +1,7 @@
 {
   "name": "@matt.ball/postman-cli",
   "description": "A client to facilitate local development of scripts for Postman.",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "license": "Apache-2.0",
   "homepage": "https://github.com/matt-ball/postman-cli",
   "repository": {
