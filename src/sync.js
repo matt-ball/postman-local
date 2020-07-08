@@ -12,10 +12,10 @@ module.exports = async function sync () {
 }
 
 async function mapFileToItem (req, context = '', type) {
-  const { POSTMAN_TEST_DIR } = config.get()
+  const { POSTMAN_DIR } = config.get()
   const isScript = type === 'prerequest' || type === 'test'
   const fileExtension = isScript ? 'js' : 'json'
-  const path = `${POSTMAN_TEST_DIR}/${context}/${req.name || ''}/${type}.${fileExtension}`
+  const path = `${POSTMAN_DIR}/${context}/${req.name || ''}/${type}.${fileExtension}`
   const localFileExists = fs.existsSync(path)
 
   if (localFileExists) {

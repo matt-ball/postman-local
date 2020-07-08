@@ -3,7 +3,6 @@
 const program = require('commander')
 const bootstrap = require('./src/bootstrap')
 const clone = require('./src/clone')
-const env = require('./src/env')
 const setup = require('./src/setup')
 const sync = require('./src/sync')
 const update = require('./src/update')
@@ -32,10 +31,5 @@ program
   .command('clone')
   .description('Clone collection into My Workspace')
   .action(clone)
-
-program
-  .command('env')
-  .description('Fetch an environment')
-  .action(env)
 
 program.parse(process.argv)
