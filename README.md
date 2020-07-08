@@ -69,17 +69,19 @@ Running `postman bootstrap` will create a number of files and folders in the dir
 
 For example, a collection containing 2 requests named `Request A` and `Request B`, where `A` has a request and a test script defined, and `B` has a request, response and pre-request script defined the following following structure would be created:
 
-📦repo
- ┣ 📂postman
- ┃ ┣ 📂Request A
- ┃ ┃ ┣ 📜request.json
- ┃ ┃ ┗ 📜test.js
- ┃ ┗ 📂Request B
- ┃   ┣ 📜request.json
- ┃   ┣ 📜request.json
- ┃   ┗ 📜prerequest.js
- ┣ 📜postman_collection.json
- ┗ 📜postman_environment.json
+<pre>
+📦 repo
+ ┣ 📂 postman
+ ┃ ┣ 📂 Request A
+ ┃ ┃ ┣ 📜 request.json
+ ┃ ┃ ┗ 📜 test.js
+ ┃ ┗ 📂 Request B
+ ┃   ┣ 📜 request.json
+ ┃   ┣ 📜 request.json
+ ┃   ┗ 📜 prerequest.js
+ ┣ 📜 postman_collection.json
+ ┗ 📜 postman_environment.json
+ </pre>
 
 Once `postman bootstrap` has been run, running the command again will only serve to create new files/folders if new requests, responses or scripts have been made through the Postman app. It will not touch already bootstrapped files. You can add new elements by creating a `request.json`, `response.json`, `test.js` or `prerequest.js` file yourself.
 
