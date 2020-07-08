@@ -4,7 +4,6 @@ const config = require('./lib/config')
 const createChoices = require('./lib/create-choices')
 const log = require('./lib/log')
 const { POSTMAN_API_BASE } = require('./lib/constants')
-const file = require('./lib/file')
 
 module.exports = setup
 
