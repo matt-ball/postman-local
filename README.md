@@ -77,7 +77,7 @@ For example, a collection containing 2 requests named `Request A` and `Request B
  ┃ ┃ ┗ 📜 test.js
  ┃ ┗ 📂 Request B
  ┃   ┣ 📜 request.json
- ┃   ┣ 📜 request.json
+ ┃   ┣ 📜 response.json
  ┃   ┗ 📜 prerequest.js
  ┣ 📜 postman_collection.json
  ┗ 📜 postman_environment.json
