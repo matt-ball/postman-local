@@ -62,22 +62,30 @@ async function continueSetup (collectionList, apiKey, selectedWorkspaceId) {
   const fetchEnvironment = await prompt({
     name: 'value',
     type: 'confirm',
-    message: 'Would you like to include an Environment?'
+    message: 'Would you like to include Environment(s)?'
   })
 
   if (fetchEnvironment.value) {
     const environmentList = await axios.get(`${POSTMAN_API_BASE}/workspaces/${selectedWorkspaceId}/${apiKeyParam}`)
     const environmentChoices = createChoices(environmentList.data.workspace.environments)
 
-    const selectedEnvironment = await prompt({
-      name: 'id',
+    const selectedEnvironments = await prompt({
+      name: 'list',
       type: 'autocomplete',
-      message: 'Select the Environment you wish to work with',
+      multiple: true,
+      message: 'Use SPACE to Select the Environment(s) you wish to work with',
       limit: 10,
-      choices: environmentChoices
+      choices: environmentChoices,
+      result (names) {
+        return names.reduce((acc, cur) => {
+          const match = environmentChoices.find(choice => choice.name === cur).value
+          acc[cur] = match
+          return acc
+        }, {})
+      }
     })
 
-    settings.POSTMAN_ENVIRONMENT_ID = selectedEnvironment.id
+    settings.POSTMAN_ENVIRONMENTS = selectedEnvironments.list
   }
 
   const directory = await prompt({
@@ -87,27 +95,11 @@ async function continueSetup (collectionList, apiKey, selectedWorkspaceId) {
     message: 'Enter directory for Postman files'
   })
 
-  const collectionFile = await prompt({
-    type: 'input',
-    name: 'name',
-    initial: 'postman_collection.json',
-    message: 'Enter filename for collection JSON file'
-  })
-
-  const environmentFile = await prompt({
-    type: 'input',
-    name: 'name',
-    initial: 'postman_environment.json',
-    message: 'Enter filename for environment JSON file'
-  })
-
   Object.assign(settings, {
     POSTMAN_API_KEY: apiKey.value,
     POSTMAN_COLLECTION_ID: selectedCollection.id,
     POSTMAN_WORKSPACE_ID: selectedWorkspaceId,
-    POSTMAN_DIR: directory.name,
-    POSTMAN_COLLECTION_FILENAME: collectionFile.name,
-    POSTMAN_ENVIRONMENT_FILENAME: environmentFile.name
+    POSTMAN_DIR: directory.name
   })
 
   config.set(settings, { log: true })

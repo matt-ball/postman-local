@@ -9,21 +9,28 @@ let wroteFile
 
 module.exports = async function bootstrap () {
   wroteFile = false
-  const { POSTMAN_DIR, POSTMAN_API_KEY, POSTMAN_ENVIRONMENT_ID } = config.get()
+  const { POSTMAN_DIR, POSTMAN_API_KEY, POSTMAN_ENVIRONMENTS } = config.get()
   const collection = await recurseCollection(mapItemToFile)
-  file.collection.write(collection)
-
-  if (POSTMAN_ENVIRONMENT_ID) {
-    const apiKeyParam = `?apikey=${POSTMAN_API_KEY}`
-    const environment = await axios.get(`${constants.POSTMAN_API_BASE}/environments/${POSTMAN_ENVIRONMENT_ID}/${apiKeyParam}`)
-    file.environment.write(environment.data.environment)
-  }
+  const environments = file.environment.read()
 
   if (wroteFile) {
     log.success(`Files written to ${POSTMAN_DIR} directory!`)
+    file.collection.write(collection)
   } else {
-    log.info('Nothing to bootstrap. No requests found within collection.')
+    log.info('Nothing to bootstrap. No or no new requests found within collection.')
   }
+
+  if (!environments && POSTMAN_ENVIRONMENTS) {
+    Object.values(POSTMAN_ENVIRONMENTS).forEach((id) => {
+      writeEnvironment(id, POSTMAN_API_KEY)
+    })
+  }
+}
+
+async function writeEnvironment (id, POSTMAN_API_KEY) {
+  const apiKeyParam = `?apikey=${POSTMAN_API_KEY}`
+  const environment = await axios.get(`${constants.POSTMAN_API_BASE}/environments/${id}/${apiKeyParam}`)
+  file.environment.write(environment.data.environment)
 }
 
 function mapItemToFile (item, context = '', type) {
