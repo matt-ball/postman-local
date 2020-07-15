@@ -32,23 +32,23 @@ Run the `postman` command from the root directory of your repo.
 
 ### `postman bootstrap`
 
-Converts a collections requests, responses and scripts to JSON/JavaScript files, placed in the directory specified during `postman setup`. Run this command whenever adding requests, responses or scripts on the Postman side - it will not update previously bootstrapped request, response or script files. See more at [bootstrapping](#bootstrapping)
+Converts a collections requests, responses and scripts to JSON/JavaScript files, placed in the directory specified during `postman setup`. Run this command whenever adding requests, responses or scripts on the Postman side - it will not update previously bootstrapped request, response or script files. It will also create a collection JSON file, and environment files too (if you selected some during `postman setup`). See more at [bootstrapping](#bootstrapping).
 
 ### `postman clone`
 
-Creates both collection and environment (if present) in `My Workspace` in Postman for testing. Will update pre-existing clones after running once. Useful when checking out others branches.
+Creates both collection and environment(s) (if present) in `My Workspace` in Postman for testing. Will update pre-existing clones after running once. Useful when checking out others branches or before using `postman update` and updating the original resources.
 
 ### `postman setup`
 
-Run for intial setup. Generates a `.postman.json` configuration file.
+Run for intial setup or later reconfiguration. Generates a `.postman.json` configuration file.
 
 ### `postman sync`
 
-Converts the files created with `postman bootstrap` back to the Postman collection format. Use after making changes and before pushing to your VCS, running `postman clone` or `postman update`.
+Converts the files created with `postman bootstrap` back to the Postman collection format (JSON). Use after making changes and before pushing to your VCS, running `postman clone` or `postman update`.
 
 ### `postman update`
 
-Updates the collection and environment (if one exists) in Postman with local changes. Useful for CI/CD on merge to master - include your config/secrets `.postman.json` file (generated from `postman setup`) within this environment. _Note_: scripts in Postman will now include additional code through the Postman CLI bundling process - it's easier to edit locally only at this point.
+Updates the original collection and any environment(s) in the Postman app with your local changes. Useful for CI/CD on merge to master - include your config/secrets `.postman.json` file (generated from `postman setup`) within this environment. _Note_: scripts in Postman will now include additional code through the Postman CLI bundling process - it's easier to edit locally only at this point.
 
 ## Getting started
 
@@ -85,7 +85,7 @@ For example, a collection containing 2 requests named `Request A` and `Request B
 
 Once `postman bootstrap` has been run, running the command again will only serve to create new files/folders if new requests, responses or scripts have been made through the Postman app. It will not touch already bootstrapped files. You can add new elements by creating a `request.json`, `response.json`, `test.js` or `prerequest.js` file yourself.
 
-Finally, `postman bootstrap` will create a collection JSON file for your convenience. This can be kept in sync with changes to files in the `postman` directory by running `postman sync`. An environment file will also be created if optioned during `postman setup`.
+Finally, `postman bootstrap` will create a collection JSON file for your convenience. This can be kept in sync with changes to files in the `postman` directory by running `postman sync`. Environment file(s) will also be created if optioned during `postman setup`. Should you wish to add environments at a later date, run `postman setup` again.
 
 ## Example workflow
 

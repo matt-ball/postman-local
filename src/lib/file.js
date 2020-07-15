@@ -15,9 +15,11 @@ module.exports = {
     },
     write: (collection) => {
       try {
-        const { POSTMAN_COLLECTION_FILENAME } = config.get()
-        fs.writeFileSync(POSTMAN_COLLECTION_FILENAME, JSON.stringify(collection, null, 2))
-        log.success(`Postman collection written to ${POSTMAN_COLLECTION_FILENAME}!`)
+        const filename = `${collection.info.name}.postman_collection.json`
+
+        config.set({ POSTMAN_COLLECTION_FILENAME: filename }, { merge: true })
+        fs.writeFileSync(filename, JSON.stringify(collection, null, 2))
+        log.success(`Postman collection written to ${filename}!`)
       } catch (e) {
         log.error('Failed to write Postman collection.')
       }
@@ -26,17 +28,20 @@ module.exports = {
   environment: {
     read: () => {
       try {
-        const { POSTMAN_ENVIRONMENT_FILENAME } = config.get()
-        const environment = require(path.resolve(process.cwd(), POSTMAN_ENVIRONMENT_FILENAME))
+        const { POSTMAN_ENVIRONMENTS } = config.get()
 
-        return environment
+        return Object.keys(POSTMAN_ENVIRONMENTS).map((name) => {
+          const filename = `${name}.postman_environment.json`
+          return require(path.resolve(process.cwd(), filename))
+        })
       } catch (e) {}
     },
     write: (environment) => {
       try {
-        const { POSTMAN_ENVIRONMENT_FILENAME } = config.get()
-        fs.writeFileSync(POSTMAN_ENVIRONMENT_FILENAME, JSON.stringify(environment, null, 2))
-        log.success(`Postman environment written to ${POSTMAN_ENVIRONMENT_FILENAME}!`)
+        const filename = `${environment.name}.postman_environment.json`
+
+        fs.writeFileSync(filename, JSON.stringify(environment, null, 2))
+        log.success(`Postman environment written to ${filename}!`)
       } catch (e) {
         log.error('Failed to write Postman environment.')
       }
