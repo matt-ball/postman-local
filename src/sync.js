@@ -1,9 +1,19 @@
 const fs = require('fs')
 const browserify = require('browserify')
+const detective = require('detective')
 const promisify = require('util').promisify
 const config = require('./lib/config')
 const file = require('./lib/file')
 const recurseCollection = require('./lib/recurse-collection')
+
+// Reference: https://learning.postman.com/docs/writing-scripts/script-references/postman-sandbox-api-reference/
+const sandboxBuiltins = [
+  'ajv', 'atob', 'btoa', 'chai', 'cheerio', 'crypto-js',
+  'csv-parse/lib/sync', 'lodash', 'moment', 'postman-collection',
+  'tv4', 'uuid', 'xml2js', 'path', 'assert', 'buffer', 'util',
+  'url', 'punycode', 'querystring', 'string-decoder', 'stream',
+  'timers', 'events'
+]
 
 module.exports = async function sync () {
   const collection = await recurseCollection(mapFileToItem)
@@ -21,7 +31,7 @@ async function mapFileToItem (req, context = '', type) {
   if (localFileExists) {
     if (isScript) {
       const index = req.event.findIndex((el) => el.listen === type)
-      req.event[index].script.exec = await bundle(path)
+      req.event[index].script.exec = await maybeBundle(path)
     } else {
       req[type] = readItemFile(path)
     }
@@ -30,18 +40,16 @@ async function mapFileToItem (req, context = '', type) {
   return req
 }
 
+async function maybeBundle (path) {
+  const source = fs.readFileSync(path)
+  const requires = detective(source).filter(r => !sandboxBuiltins.includes(r))
+
+  return requires.length ? bundle(path) : source.toString('utf8')
+}
+
 async function bundle (path) {
   const b = browserify()
   b.add(path)
-
-  // Reference: https://learning.postman.com/docs/writing-scripts/script-references/postman-sandbox-api-reference/
-  const sandboxBuiltins = [
-    'ajv', 'atob', 'btoa', 'chai', 'cheerio', 'crypto-js',
-    'csv-parse/lib/sync', 'lodash', 'moment', 'postman-collection',
-    'tv4', 'uuid', 'xml2js', 'path', 'assert', 'buffer', 'util',
-    'url', 'punycode', 'querystring', 'string-decoder', 'stream',
-    'timers', 'events'
-  ]
 
   for (const builtin of sandboxBuiltins) {
     b.external(builtin)
