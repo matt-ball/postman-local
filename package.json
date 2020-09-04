@@ -25,6 +25,7 @@
     "browserify": "^16.5.0",
     "chalk": "^2.4.2",
     "commander": "^4.0.1",
+    "detective": "^5.2.0",
     "enquirer": "^2.3.2"
   },
   "devDependencies": {

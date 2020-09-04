@@ -1,5 +1,6 @@
 const fs = require('fs')
 const browserify = require('browserify')
+const detective = require('detective');
 const promisify = require('util').promisify
 const config = require('./lib/config')
 const file = require('./lib/file')
@@ -21,13 +22,20 @@ async function mapFileToItem (req, context = '', type) {
   if (localFileExists) {
     if (isScript) {
       const index = req.event.findIndex((el) => el.listen === type)
-      req.event[index].script.exec = await bundle(path)
+      req.event[index].script.exec = await maybeBundle(path)
     } else {
       req[type] = readItemFile(path)
     }
   }
 
   return req
+}
+
+async function maybeBundle (path) {
+  const source = fs.readFileSync(path)
+  const requires = detective(source)
+
+  return requires.length ? bundle(path) : source.toString('utf8')
 }
 
 async function bundle (path) {
