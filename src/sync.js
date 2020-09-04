@@ -1,6 +1,6 @@
 const fs = require('fs')
 const browserify = require('browserify')
-const detective = require('detective');
+const detective = require('detective')
 const promisify = require('util').promisify
 const config = require('./lib/config')
 const file = require('./lib/file')
