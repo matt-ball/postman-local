@@ -34,6 +34,19 @@ async function bundle (path) {
   const b = browserify()
   b.add(path)
 
+  // Reference: https://learning.postman.com/docs/writing-scripts/script-references/postman-sandbox-api-reference/
+  const sandboxBuiltins = [
+    'ajv', 'atob', 'btoa', 'chai', 'cheerio', 'crypto-js',
+    'csv-parse/lib/sync', 'lodash', 'moment', 'postman-collection',
+    'tv4', 'uuid', 'xml2js', 'path', 'assert', 'buffer', 'util',
+    'url', 'punycode', 'querystring', 'string-decoder', 'stream',
+    'timers', 'events'
+  ]
+
+  for (const builtin of sandboxBuiltins) {
+    b.external(builtin)
+  }
+
   const doBundle = promisify(b.bundle.bind(b))
   const buf = await doBundle()
   const script = buf.toString()
