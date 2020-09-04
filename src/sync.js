@@ -49,11 +49,8 @@ async function maybeBundle (path) {
 
 async function bundle (path) {
   const b = browserify()
+  b.external(sandboxBuiltins)
   b.add(path)
-
-  for (const builtin of sandboxBuiltins) {
-    b.external(builtin)
-  }
 
   const doBundle = promisify(b.bundle.bind(b))
   const buf = await doBundle()
