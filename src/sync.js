@@ -30,6 +30,13 @@ async function mapFileToItem (req, context = '', type) {
 
   if (localFileExists) {
     if (isScript) {
+      req.event = req.event || [{
+        listen: type,
+        script: {
+          exec: []
+        }
+      }]
+
       const index = req.event.findIndex((el) => el.listen === type)
       req.event[index].script.exec = await maybeBundle(path)
     } else {
