@@ -59,33 +59,37 @@ async function continueSetup (collectionList, apiKey, selectedWorkspaceId) {
     choices: collectionChoices
   })
 
-  const fetchEnvironment = await prompt({
-    name: 'value',
-    type: 'confirm',
-    message: 'Would you like to include Environment(s)?'
-  })
+  const environmentList = await axios.get(`${POSTMAN_API_BASE}/workspaces/${selectedWorkspaceId}/${apiKeyParam}`)
+  const envs = environmentList.data.workspace.environments
 
-  if (fetchEnvironment.value) {
-    const environmentList = await axios.get(`${POSTMAN_API_BASE}/workspaces/${selectedWorkspaceId}/${apiKeyParam}`)
-    const environmentChoices = createChoices(environmentList.data.workspace.environments)
-
-    const selectedEnvironments = await prompt({
-      name: 'list',
-      type: 'autocomplete',
-      multiple: true,
-      message: 'Use SPACE to Select the Environment(s) you wish to work with',
-      limit: 10,
-      choices: environmentChoices,
-      result (names) {
-        return names.reduce((acc, cur) => {
-          const match = environmentChoices.find(choice => choice.name === cur).value
-          acc[cur] = match
-          return acc
-        }, {})
-      }
+  if (envs) {
+    const fetchEnvironment = await prompt({
+      name: 'value',
+      type: 'confirm',
+      message: 'Would you like to include Environment(s)?'
     })
 
-    settings.POSTMAN_ENVIRONMENTS = selectedEnvironments.list
+    if (fetchEnvironment.value) {
+      const environmentChoices = createChoices(envs)
+
+      const selectedEnvironments = await prompt({
+        name: 'list',
+        type: 'autocomplete',
+        multiple: true,
+        message: 'Use SPACE to Select the Environment(s) you wish to work with',
+        limit: 10,
+        choices: environmentChoices,
+        result (names) {
+          return names.reduce((acc, cur) => {
+            const match = environmentChoices.find(choice => choice.name === cur).value
+            acc[cur] = match
+            return acc
+          }, {})
+        }
+      })
+
+      settings.POSTMAN_ENVIRONMENTS = selectedEnvironments.list
+    }
   }
 
   const directory = await prompt({
