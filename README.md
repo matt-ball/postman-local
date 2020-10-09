@@ -85,7 +85,7 @@ For example, a collection containing 2 requests named `Request A` and `Request B
 
 Once `postman bootstrap` has been run, running the command again will only serve to create new files/folders if new requests, responses or scripts have been made through the Postman app. It will not touch already bootstrapped files. You can add new elements by creating a `request.json`, `response.json`, `test.js` or `prerequest.js` file yourself.
 
-Finally, `postman bootstrap` will create a collection JSON file for your convenience. This can be kept in sync with changes to files in the `postman` directory by running `postman sync`. Environment file(s) will also be created if optioned during `postman setup`. Should you wish to add environments at a later date, run `postman setup` again.
+Finally, `postman bootstrap` will create a collection JSON file for your convenience. This can be kept in sync with changes to files in the `postman` directory by running `postman sync`. Environment file(s) will also be created if they exist and are optioned during `postman setup`. Should you wish to add environments at a later date, run `postman setup` again.
 
 ## Example workflow
 
