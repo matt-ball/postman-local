@@ -1,12 +1,12 @@
 {
   "name": "postman-local",
   "description": "A client to facilitate local development of scripts for Postman.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/matt-ball/postman-cli",
+  "homepage": "https://github.com/matt-ball/postman-local",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/matt-ball/postman-cli.git"
+    "url": "git+https://github.com/matt-ball/postman-local.git"
   },
   "keywords": [
     "postman",
