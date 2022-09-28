@@ -9,7 +9,7 @@ const update = require('./src/update')
 
 program
   .command('setup')
-  .description('Configure Postman CLI for first use')
+  .description('Configure Postman Local for first use')
   .action(setup)
 
 program

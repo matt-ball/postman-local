@@ -1,4 +1,4 @@
-# Postman CLI
+# Postman Local
 
 A client to facilitate local development of requests, responses and scripts for Postman.
 
@@ -18,11 +18,11 @@ Note: due to the bundling process involved in including additional libraries, th
 
 Node version 10.12 or higher is required.
 
-`npm i -g @matt.ball/postman-cli`
+`npm i -g postman-local`
 
 ## Configuration
 
-Run `postman setup` within the root directory of your project to setup a Postman CLI config.
+Run `postman setup` within the root directory of your project to setup a Postman Local config.
 
 See the Postman Learning Center for [details on creating an API key](https://learning.getpostman.com/docs/postman/postman-api/intro-api/).
 
@@ -48,14 +48,14 @@ Converts the files created with `postman bootstrap` back to the Postman collecti
 
 ### `postman update`
 
-Updates the original collection and any environment(s) in the Postman app with your local changes. Useful for CI/CD on merge to master - include your config/secrets `.postman.json` file (generated from `postman setup`) within this environment. _Note_: scripts in Postman will now include additional code through the Postman CLI bundling process - it's easier to edit locally only at this point.
+Updates the original collection and any environment(s) in the Postman app with your local changes. Useful for CI/CD on merge to master - include your config/secrets `.postman.json` file (generated from `postman setup`) within this environment. _Note_: scripts in Postman will now include additional code through the Postman Local bundling process - it's easier to edit locally only at this point.
 
 ## Getting started
 
 1. From the root of your repo:  
 `postman bootstrap`  
 
-2. Edit the files produced by the CLI.
+2. Edit the files produced by Postman Local.
 
 3. Sync the changes back to the Postman collection format:
 `postman sync`
@@ -112,7 +112,7 @@ Finally, `postman bootstrap` will create a collection JSON file for your conveni
 `newman run postman_collection.json -e postman_environment.json`  
 
 7. PR approved and merged, CD runs the following, updating Postman collection to Postman app:  
-`echo ${{ secrets.postmanCli }} > .postman.json`  
+`echo ${{ secrets.postmanLocal }} > .postman.json`  
 `postman update`  
 
 ## Other

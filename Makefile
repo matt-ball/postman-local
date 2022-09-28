@@ -9,4 +9,4 @@ lint:
 	$(BIN)/standard
 
 publish:
-	npm publish --access public
+	npm publish

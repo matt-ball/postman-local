@@ -1,5 +1,5 @@
 {
-  "name": "@matt.ball/postman-cli",
+  "name": "postman-local",
   "description": "A client to facilitate local development of scripts for Postman.",
   "version": "0.1.2",
   "license": "Apache-2.0",
@@ -10,6 +10,7 @@
   },
   "keywords": [
     "postman",
+    "local",
     "cli",
     "api"
   ],
